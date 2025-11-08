@@ -1,0 +1,25 @@
+khali meraProgram() 
+{
+    rakam number = 10;
+    ashariya decimal = 13.2;
+    lafz character = 'A';
+    agr (number > 5) 
+    {
+        likho "Number is greater than 5";
+    } 
+    wrna 
+    {
+        likho "Number is small";
+    }
+>< this is loop ><
+    barbar (rakam i = 0; i < 5; i = i + 1) 
+    {
+        agr (i == 3) 
+        {
+            ruko;
+        }
+        likho i;
+    }
+>< this is return ><
+    dedo 0;
+}
