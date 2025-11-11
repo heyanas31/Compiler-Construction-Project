@@ -3,6 +3,7 @@ khali meraProgram()
     rakam number = 10;
     ashariya decimal = 13.2;
     lafz character = 'A';
+>< this is if-else ><
     agr (number > 5) 
     {
         likho "Number is greater than 5";
@@ -22,4 +23,5 @@ khali meraProgram()
     }
 >< this is return ><
     dedo 0;
+
 }
