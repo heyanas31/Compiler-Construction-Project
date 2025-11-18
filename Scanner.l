@@ -1,62 +1,103 @@
 %{
 #include <stdio.h>
-int line_num = 1;
+#include <string.h>
+FILE *token;
+FILE *error; 
+int checking(const char *text);
 %}
 
+%option yylineno
 DIGIT    [0-9]
 ID       [a-zA-Z_][a-zA-Z0-9_]*
 
 %%
+\n          ;
+[ \t]+      ;
+"><".*"><"  ;
+"//".*      ;
 
-\n        { line_num++; }
-[ \t]+    ;
+"agr"       { fprintf(token, "Line %d: KEYWORD -> if -> %s\n", yylineno, yytext); }
+"wrna"      { fprintf(token, "Line %d: KEYWORD -> else -> %s\n", yylineno, yytext); }
+"barbar"    { fprintf(token, "Line %d: KEYWORD -> for -> %s\n", yylineno, yytext); }
+"dedo"      { fprintf(token, "Line %d: KEYWORD -> return -> %s\n", yylineno, yytext); }
+"darost"    { fprintf(token, "Line %d: KEYWORD -> true -> %s\n", yylineno, yytext); }
+"galat"     { fprintf(token, "Line %d: KEYWORD -> false -> %s\n", yylineno, yytext); }
+"laina"     { fprintf(token, "Line %d: KEYWORD -> cin -> %s\n", yylineno, yytext); }
+"likho"     { fprintf(token, "Line %d: KEYWORD -> cout -> %s\n", yylineno, yytext); }
+"rakam"     { fprintf(token, "Line %d: KEYWORD -> int -> %s\n", yylineno, yytext); }
+"lafz"      { fprintf(token, "Line %d: KEYWORD -> char -> %s\n", yylineno, yytext); }
+"ruko"      { fprintf(token, "Line %d: KEYWORD -> break -> %s\n", yylineno, yytext); }
+"khali"     { fprintf(token, "Line %d: KEYWORD -> void -> %s\n", yylineno, yytext); }
+"yan"       { fprintf(token, "Line %d: KEYWORD -> or -> %s\n", yylineno, yytext); }
+"aur"       { fprintf(token, "Line %d: KEYWORD -> and -> %s\n", yylineno, yytext); }
+"ashariya"  { fprintf(token, "Line %d: KEYWORD -> float -> %s\n", yylineno, yytext); }
 
-"><".*"><"    ;  /* Ignore custom comments */
-"//".*        ;  /* Ignore single line comments */
+"*"         { fprintf(token, "Line %d: OPERATOR -> multiply -> %s\n", yylineno, yytext); }
+"mult"      { fprintf(token, "Line %d: OPERATOR -> multiply -> %s\n", yylineno, yytext); }
+"+"         { fprintf(token, "Line %d: OPERATOR -> addition -> %s\n", yylineno, yytext); }
+"add"       { fprintf(token, "Line %d: OPERATOR -> addition -> %s\n", yylineno, yytext); }
+"-"         { fprintf(token, "Line %d: OPERATOR -> subtraction -> %s\n", yylineno, yytext); }
+"subtract"  { fprintf(token, "Line %d: OPERATOR -> subtraction -> %s\n", yylineno, yytext); }
+"!"         { fprintf(token, "Line %d: OPERATOR -> negation -> %s\n", yylineno, yytext); }
+"not"       { fprintf(token, "Line %d: OPERATOR -> negation -> %s\n", yylineno, yytext); }
+"="         { fprintf(token, "Line %d: OPERATOR -> assignment -> %s\n", yylineno, yytext); }
+"=="        { fprintf(token, "Line %d: OPERATOR -> equalto -> %s\n", yylineno, yytext); }
+">"         { fprintf(token, "Line %d: OPERATOR -> greater -> %s\n", yylineno, yytext); }
+"<"         { fprintf(token, "Line %d: OPERATOR -> lesser -> %s\n", yylineno, yytext); }
+"/"         { fprintf(token, "Line %d: OPERATOR -> divide -> %s\n", yylineno, yytext); }
+"div"       { fprintf(token, "Line %d: OPERATOR -> divide -> %s\n", yylineno, yytext); }
 
-"agr"       { printf("Line %d: KEYWORD_IF -> %s\n", line_num, yytext); }
-"wrna"      { printf("Line %d: KEYWORD_ELSE -> %s\n", line_num, yytext); }
-"barbar"    { printf("Line %d: KEYWORD_FOR -> %s\n", line_num, yytext); }
-"dedo"      { printf("Line %d: KEYWORD_RETURN -> %s\n", line_num, yytext); }
-"darost"    { printf("Line %d: KEYWORD_TRUE -> %s\n", line_num, yytext); }
-"galat"     { printf("Line %d: KEYWORD_FALSE -> %s\n", line_num, yytext); }
-"laina"     { printf("Line %d: KEYWORD_CIN -> %s\n", line_num, yytext); }
-"likho"     { printf("Line %d: KEYWORD_COUT -> %s\n", line_num, yytext); }
-"rakam"     { printf("Line %d: KEYWORD_INT -> %s\n", line_num, yytext); }
-"lafz"      { printf("Line %d: KEYWORD_CHAR -> %s\n", line_num, yytext); }
-"ruko"      { printf("Line %d: KEYWORD_BREAK -> %s\n", line_num, yytext); }
-"khali"     { printf("Line %d: KEYWORD_VOID -> %s\n", line_num, yytext); }
-"yan"       { printf("Line %d: KEYWORD_OR -> %s\n", line_num, yytext); }
-"aur"       { printf("Line %d: KEYWORD_AND -> %s\n", line_num, yytext); }
-"ashariya"  { printf("Line %d: KEYWORD_FLOAT -> %s\n", line_num, yytext); }
+"("         { fprintf(token, "Line %d: PUNCTUATION -> left-parenthesis -> %s\n", yylineno, yytext); }
+")"         { fprintf(token, "Line %d: PUNCTUATION -> right-parenthesis -> %s\n", yylineno, yytext); }
+"{"         { fprintf(token, "Line %d: PUNCTUATION -> left-bracket -> %s\n", yylineno, yytext); }
+"}"         { fprintf(token, "Line %d: PUNCTUATION -> right-bracket -> %s\n", yylineno, yytext); }
+";"         { fprintf(token, "Line %d: PUNCTUATION -> semi-colon -> %s\n", yylineno, yytext); }
+","         { fprintf(token, "Line %d: PUNCTUATION -> comma -> %s\n", yylineno, yytext); }
 
-"*"     { printf("Line %d: OPERATOR_MULTIPLY -> %s\n", line_num, yytext); }
-"+"     { printf("Line %d: OPERATOR_ADDITION -> %s\n", line_num, yytext); }
-"-"     { printf("Line %d: OPERATOR_SUBTRACT -> %s\n", line_num, yytext); }
-"!"     { printf("Line %d: OPERATOR_NEGATION -> %s\n", line_num, yytext); }
-"="     { printf("Line %d: OPERATOR_ASSIGNMENT -> %s\n", line_num, yytext); }
-"=="    { printf("Line %d: OPERATOR_EQUALTO -> %s\n", line_num, yytext); }
-">"     { printf("Line %d: OPERATOR_GREATER -> %s\n", line_num, yytext); }
-"<"     { printf("Line %d: OPERATOR_LESSER -> %s\n", line_num, yytext); }
-"/"     { printf("Line %d: OPERATOR_DIVIDE -> %s\n", line_num, yytext); }
+-?{DIGIT}+                      { fprintf(token, "Line %d: integer -> %s\n", yylineno, yytext); }
+-?{DIGIT}+"."{DIGIT}+           { fprintf(token, "Line %d: float -> %s\n", yylineno, yytext); }
+\"(\\.|[^"\\])*\"               { fprintf(token, "Line %d: string -> %s\n", yylineno, yytext); }
+\'[^\\']\'                      { fprintf(token, "Line %d: char -> %s\n", yylineno, yytext); }
+\'\\[nt\\\']\'                  { fprintf(token, "Line %d: char -> %s\n", yylineno, yytext); }
 
-"("     { printf("Line %d: PUNC_LEFTPARENTHESIS -> %s\n", line_num, yytext); }
-")"     { printf("Line %d: PUNC_RIGHTPARENTHESIS -> %s\n", line_num, yytext); }
-"{"     { printf("Line %d: PUNC_LEFTBRACKET -> %s\n", line_num, yytext); }
-"}"     { printf("Line %d: PUNC_RIGHTBRACKET -> %s\n", line_num, yytext); }
-";"     { printf("Line %d: PUNC_SEMICOLON -> %s\n", line_num, yytext); }
+{ID}    { 
+    if (checking(yytext)) 
+    {
+        fprintf(error, "Line %d: ERROR -> Invalid identifier '%s'\n", yylineno, yytext);
+    } 
+    else 
+    {
+        fprintf(token, "Line %d: identifier -> %s\n", yylineno, yytext);
+    }
+}
 
-{ID}        { printf("Line %d: IDENTIFIER -> %s\n", line_num, yytext); }
-{DIGIT}+    { printf("Line %d: INTEGER -> %s\n", line_num, yytext); }
-{DIGIT}+"."{DIGIT}+  { printf("Line %d: FLOAT -> %s\n", line_num, yytext); }
-\"([^"\\]|\\[\\"tn])*\"  { printf("Line %d: STRING -> %s\n", line_num, yytext); }
-\'[^']\'    { printf("Line %d: CHAR -> %s\n", line_num, yytext); }
-
-.           { printf("Line %d: ANY ERROR -> %s\n", line_num, yytext); }
+.       { fprintf(error, "Line %d: ERROR -> %s\n", yylineno, yytext); }
 
 %%
 
-int main() {
+int checking(const char *text) 
+{
+    const char *mywords[] = {"agr", "wrna", "barbar", "dedo", "darost", "galat", "laina", "likho", "rakam", "lafz", "ruko", "khali", "yan", "aur", "ashariya", "mult", "add", "subtract", "not", "div", NULL};
+    
+    const char **word = mywords;
+    while (*word)
+    {
+        if (strstr(text, *word) != NULL) 
+        {
+            return 1;
+        }
+        word++;
+    }
+    return 0;
+}
+
+int main() 
+{
+    token = fopen("tokens.txt", "w");
+    error = fopen("errors.txt", "w");
+   
     yylex();
+    fclose(token);
+    fclose(error);
     return 0;
 }
